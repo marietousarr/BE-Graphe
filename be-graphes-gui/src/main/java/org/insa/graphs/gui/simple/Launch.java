@@ -1,3 +1,6 @@
+/*Mariétou Sarr 26/03/2020 */
+
+
 package org.insa.graphs.gui.simple;
 
 import java.awt.BorderLayout;
