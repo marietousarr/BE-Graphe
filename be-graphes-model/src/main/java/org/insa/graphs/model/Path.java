@@ -37,7 +37,7 @@ public class Path {
         List<Arc> arcs = new ArrayList<Arc>();
         // TODO:
         int i;
-        for (i=0; i< (nodes.size()-1); i++) {
+        for (i=0; i<= (nodes.size()-1); i++) {
         	List<Arc> successors = (nodes.get(i)).getSuccessors();
         }
         return new Path(graph, arcs);
@@ -216,13 +216,13 @@ public class Path {
     		res= true;
     	} else if (((this.arcs).get(0)).getOrigin()==this.origin) {
     		res=true;
-    		int i;
-    		for (i=0; i<((this.arcs).size() -2);i++) {
+    		int i=0;
+    		while (res && i<=((this.arcs).size() -2)) {
     			if (((this.arcs).get(i)).getDestination()!= ((this.arcs).get(i+1)).getOrigin()) {
     				res=false;
     			}
+    			i++;
     		}
-    		
     	}
         return res;
     }
