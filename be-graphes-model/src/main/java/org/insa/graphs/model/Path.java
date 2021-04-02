@@ -36,6 +36,10 @@ public class Path {
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
         // TODO:
+        int i;
+        for (i=0; i< (nodes.size()-1); i++) {
+        	List<Arc> successors = (nodes.get(i)).getSuccessors();
+        }
         return new Path(graph, arcs);
     }
 
@@ -57,6 +61,8 @@ public class Path {
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
         // TODO:
+        
+      
         return new Path(graph, arcs);
     }
 
