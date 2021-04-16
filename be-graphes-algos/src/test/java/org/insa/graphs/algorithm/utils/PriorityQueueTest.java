@@ -275,8 +275,10 @@ public abstract class PriorityQueueTest {
     @Test
     public void testRemove() {
         int size1 = queue.size();
+        
         for (int i = 0; i < parameters.deleteOrder.length; ++i) {
             // Remove from structure
+        	System.out.println(i + " " + queue.toString());
             queue.remove(parameters.data[parameters.deleteOrder[i]]);
 
             // Copy the remaining elements
