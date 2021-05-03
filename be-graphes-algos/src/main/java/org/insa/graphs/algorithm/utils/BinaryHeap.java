@@ -36,6 +36,10 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
         this.currentSize = heap.currentSize;
         this.array = new ArrayList<E>(heap.array);
     }
+    
+    public ArrayList<E> getArray(){
+    	return this.array;
+    }
 
     /**
      * Set an element at the given index.

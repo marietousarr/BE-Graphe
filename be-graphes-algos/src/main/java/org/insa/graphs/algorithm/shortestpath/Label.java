@@ -1,9 +1,8 @@
 package org.insa.graphs.algorithm.shortestpath;
 
-import org.insa.graphs.model.Node;
 import org.insa.graphs.model.Arc;
 
-public class Label{
+public class Label implements Comparable<Label>{
 	
 	//attributs
 	protected int sommetCourant; //sera égal à l'id du noeud pour l'association
@@ -12,7 +11,7 @@ public class Label{
 	
 	private double cout;
 	
-	private Arc arcPere;
+	public Arc arcPere;
 	
 	
 	//Contructeur
@@ -25,6 +24,30 @@ public class Label{
 	///méthode
 	public double getCost() {
 		return this.cout;
+	}
+	
+	public void setCost(double c) {
+		this.cout= c;
+	}
+	
+	public boolean isMarked() {
+		return this.marque;
+	}
+	
+	public void mark() {
+		this.marque = true;
+	}
+	
+	public void setFather(Arc arc) {
+		this.arcPere = arc;
+	}
+	
+	public int getId() {
+		return sommetCourant;
+	}
+	
+	public int compareTo( Label y) {
+		return Double.compare(getCost(), y.getCost());
 	}
 
 }
