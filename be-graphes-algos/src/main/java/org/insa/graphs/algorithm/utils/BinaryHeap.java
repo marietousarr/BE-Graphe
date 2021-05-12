@@ -87,6 +87,33 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
 
         this.arraySet(index, x);
     }
+    
+    public boolean isValid(E x) {
+    	
+    	boolean res = true;
+    	
+    	int index = this.array.indexOf(x);
+    	int left_index = indexLeft(index);
+    	int right_index = left_index +1;
+    	
+    	if (left_index < this.currentSize) {
+	    	E left =  this.array.get(left_index);
+	    	if (x.compareTo(left)> 0) {
+	    		System.out.println(x +" left "+ left);
+	    		res = false;
+	    	}
+	    	isValid(left);
+	    	if( this.array.get(right_index) != null) {
+	    		E right =  this.array.get(right_index);
+		    	if (x.compareTo(right)> 0) {
+		    		System.out.println(x +" right "+ right);
+		    		res = false;
+		    	}
+		    	isValid(right);
+	    	}
+	    }
+    	return res;
+    }
 
     /**
      * Internal method to percolate down in the heap.
@@ -145,8 +172,10 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     	if (this.isEmpty()) {
     		throw new ElementNotFoundException(x);
     	} else {
+    		
     		int n = this.array.indexOf(x);
-    		if ((n==-1) || (n >= this.currentSize)) {
+    		
+    		if ((n==-1) || (n >=this.currentSize)) {
     			throw new ElementNotFoundException(x);
     		} else {
     		 	this.arraySet(n,this.array.get(this.currentSize-1));
@@ -172,6 +201,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
         this.arraySet(0, lastItem);
         this.percolateDown(0);
         return minItem;
+        
     }
 
     /**

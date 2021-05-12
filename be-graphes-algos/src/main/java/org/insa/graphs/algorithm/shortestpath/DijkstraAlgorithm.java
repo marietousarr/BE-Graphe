@@ -1,7 +1,6 @@
 package org.insa.graphs.algorithm.shortestpath;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import org.insa.graphs.algorithm.AbstractSolution.Status;
 import org.insa.graphs.model.Arc;
@@ -9,6 +8,7 @@ import org.insa.graphs.model.Graph;
 import org.insa.graphs.model.Node;
 import org.insa.graphs.model.Path;
 import org.insa.graphs.algorithm.utils.BinaryHeap;
+import org.insa.graphs.algorithm.utils.ElementNotFoundException;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
@@ -17,7 +17,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
     }
 
     @Override
-    protected ShortestPathSolution doRun() {
+    protected ShortestPathSolution doRun() throws ElementNotFoundException{
         final ShortestPathData data = getInputData();
         ShortestPathSolution solution = null;
        
@@ -31,15 +31,17 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Label[] labels = new Label[nbNodes];
         
         //initialisation des labels
-        int i;
-        for (i=0;i<nbNodes;i++) {
-        	labels[i] = new Label(i);
+        //int i;
+        for (Node noeud : graph.getNodes()) {
+        	//dans ce tableau un id correspond à l'index du noeud
+        	labels[noeud.getId()] = new Label(noeud.getId());
         }
         
         //marquage de l'origine
         int idOrigin = (data.getOrigin()).getId();
         labels[idOrigin].setCost(0);
         labels[idOrigin].mark();
+        notifyNodeMarked(data.getOrigin());
         tas.insert(labels[idOrigin]);
        
         // Notify observers about the first event (origin processed).
@@ -53,11 +55,14 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             int idMin = labelsommetMin.getId();
             Node sommetMin = graph.get(idMin);
             labels[idMin].mark();
+         	notifyNodeMarked(sommetMin);
+         	//System.out.println(labels[idMin].getCost());
             
             for (Arc arc: sommetMin.getSuccessors()) {
             	Node noeudCourant = arc.getDestination();
             	int id = (arc.getDestination()).getId();
-            	
+            	if (id == 30833)
+            	System.out.println(noeudCourant.getId() + " "+ id);
                 // Small test to check allowed roads...
                 if (!data.isAllowed(arc)) {
                     continue;
@@ -66,19 +71,19 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                 if (!labels[id].isMarked()) {
                 
                     double w = data.getCost(arc);
-                    double oldCost = labels[id].getCost();
-                    double newCost = labels[idMin].getCost() + w;
+                    double oldCost = (labels[id]).getCost();
+                    double newCost = (labels[idMin]).getCost() + w;
                     
                     if (Double.isInfinite(oldCost) && Double.isFinite(newCost)) {
                         notifyNodeReached(noeudCourant);
                     }
                     
                     if (newCost < oldCost) {
-                    	labels[id].setCost(newCost);
-                    	labels[id].setFather(arc);
                     	if (Double.isFinite(oldCost)) {
                     		tas.remove(labels[id]);
                     	}
+                    	labels[id].setCost(newCost);
+                    	labels[id].setFather(arc);
                     	tas.insert(labels[id]);
                     }
                 }
@@ -92,7 +97,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         }
         	
     	//on construit la solution
-    	
     	if (labels[data.getDestination().getId()].arcPere==null) {
     		solution = new ShortestPathSolution(data, Status.INFEASIBLE);
     	} else {
@@ -118,8 +122,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         // Create the final solution.
         solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph, arcs));
     }
-            
-            
+    	
     return solution;
     }
 

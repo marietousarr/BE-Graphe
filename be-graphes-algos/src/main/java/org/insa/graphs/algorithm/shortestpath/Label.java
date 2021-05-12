@@ -49,5 +49,9 @@ public class Label implements Comparable<Label>{
 	public int compareTo( Label y) {
 		return Double.compare(getCost(), y.getCost());
 	}
+	
+	public String toString() {
+		return sommetCourant + " "+ cout;
+	}
 
 }
