@@ -2,6 +2,7 @@ package org.insa.graphs.algorithm.utils;
 
 import java.util.ArrayList;
 
+
 /**
  * Implements a binary heap containing elements of type E.
  *
@@ -88,7 +89,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
         this.arraySet(index, x);
     }
     
-    public boolean isValid(E x) {
+    public boolean isValid(E x) throws IndexOutOfBoundsException{
     	
     	boolean res = true;
     	
@@ -99,18 +100,27 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     	if (left_index < this.currentSize) {
 	    	E left =  this.array.get(left_index);
 	    	if (x.compareTo(left)> 0) {
-	    		System.out.println(x +" left "+ left);
+	    		System.out.println(" leftChild cost less than x " + x +"<-- x left --> "+ left);
 	    		res = false;
 	    	}
 	    	isValid(left);
-	    	if( this.array.get(right_index) != null) {
+	    	
+	    	boolean cond;
+	    	try {
+	    		cond= this.array.get(right_index) != null;
+	    		
+	    	} catch(IndexOutOfBoundsException e){
+	    		cond = false;
+	    	}
+	    	if(cond) {
 	    		E right =  this.array.get(right_index);
 		    	if (x.compareTo(right)> 0) {
-		    		System.out.println(x +" right "+ right);
+		    		System.out.println(" rightChild less more than x " + x +"<-- x right --> "+ left);
 		    		res = false;
 		    	}
 		    	isValid(right);
 	    	}
+	    	
 	    }
     	return res;
     }

@@ -17,7 +17,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
     }
 
     @Override
-    protected ShortestPathSolution doRun() throws ElementNotFoundException{
+    protected ShortestPathSolution doRun(){
         final ShortestPathData data = getInputData();
         ShortestPathSolution solution = null;
        
@@ -90,6 +90,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                     	labels[id].setCost(newCost);
                     	labels[id].setFather(arc);
                     	tas.insert(labels[id]);
+                    	System.out.println(" Le tas est valide : " + tas.isValid(labels[id]));
                     }
                 }
                 //cpt++;
@@ -129,7 +130,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
         // Create the final solution.
         Path monpcc = new Path(graph, arcs);
-        System.out.println(" Mon chemin est il valide ? " + monpcc.isValid() + "son cout est de " + monpcc.getLength());
+        //System.out.println(" Mon chemin est il valide ? " + monpcc.isValid() + "son cout est de " + monpcc.getLength());
         solution = new ShortestPathSolution(data, Status.OPTIMAL, monpcc);
     }
     	
