@@ -47,6 +47,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         // Notify observers about the first event (origin processed).
         notifyOriginProcessed(data.getOrigin());
         
+        //int cpt=0; compteur de sommets explorés
+        
         // on commence l'algorithme
         boolean notReached = true;
         
@@ -58,12 +60,15 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
          	notifyNodeMarked(sommetMin);
          	//System.out.println(labels[idMin].getCost());
             
+         	//cpt = 0;
+         	
+         	//System.out.println(" le nombre de successeurs du sommet : " +sommetMin.getSuccessors().size());
             for (Arc arc: sommetMin.getSuccessors()) {
+            	
             	Node noeudCourant = arc.getDestination();
             	int id = (arc.getDestination()).getId();
-            	if (id == 30833)
-            	System.out.println(noeudCourant.getId() + " "+ id);
-                // Small test to check allowed roads...
+                
+            	// Small test to check allowed roads...
                 if (!data.isAllowed(arc)) {
                     continue;
                 }
@@ -87,6 +92,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                     	tas.insert(labels[id]);
                     }
                 }
+                //cpt++;
             }
             
             //on verifie si on est arrivé à destination
@@ -94,6 +100,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	if (!labels[data.getDestination().getId()].isMarked()) {
         		notReached = true;
         	}
+        	
+        	//System.out.println("le nombre de sommets exploré est :" + cpt);
         }
         	
     	//on construit la solution
@@ -120,7 +128,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Collections.reverse(arcs);
 
         // Create the final solution.
-        solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph, arcs));
+        Path monpcc = new Path(graph, arcs);
+        System.out.println(" Mon chemin est il valide ? " + monpcc.isValid() + "son cout est de " + monpcc.getLength());
+        solution = new ShortestPathSolution(data, Status.OPTIMAL, monpcc);
     }
     	
     return solution;
