@@ -8,12 +8,24 @@ import org.insa.graphs.model.Graph;
 import org.insa.graphs.model.Node;
 import org.insa.graphs.model.Path;
 import org.insa.graphs.algorithm.utils.BinaryHeap;
-import org.insa.graphs.algorithm.utils.ElementNotFoundException;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
+	
+	//attributs :
+	protected BinaryHeap<Label> tas;
+	protected Label[] labels;
+	
 
     public DijkstraAlgorithm(ShortestPathData data) {
         super(data);
+        tas = new BinaryHeap();
+        labels = new Label[data.getGraph().size()];
+        
+        //initialisation des labels
+        for (Node noeud : (data.getGraph()).getNodes()) {
+        	//dans ce tableau un id correspond à l'index du noeud
+        	labels[noeud.getId()] = new Label(noeud);
+        }
     }
 
     @Override
@@ -24,18 +36,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         // TODO:
         
-        BinaryHeap<Label> tas = new BinaryHeap();
-        
         Graph graph = data.getGraph();
-        int nbNodes = graph.size();
-        Label[] labels = new Label[nbNodes];
-        
-        //initialisation des labels
-        //int i;
-        for (Node noeud : graph.getNodes()) {
-        	//dans ce tableau un id correspond à l'index du noeud
-        	labels[noeud.getId()] = new Label(noeud.getId());
-        }
         
         //marquage de l'origine
         int idOrigin = (data.getOrigin()).getId();
@@ -90,7 +91,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                     	labels[id].setCost(newCost);
                     	labels[id].setFather(arc);
                     	tas.insert(labels[id]);
-                    	System.out.println(" Le tas est valide : " + tas.isValid(labels[id]));
+                    	//System.out.println(" Le tas est valide : " + tas.isValid(labels[id]));
                     }
                 }
                 //cpt++;
@@ -130,7 +131,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
         // Create the final solution.
         Path monpcc = new Path(graph, arcs);
-        //System.out.println(" Mon chemin est il valide ? " + monpcc.isValid() + "son cout est de " + monpcc.getLength());
+        System.out.println(" Mon chemin est il valide ? " + monpcc.isValid() + "son cout est de " + monpcc.getLength());
         solution = new ShortestPathSolution(data, Status.OPTIMAL, monpcc);
     }
     	

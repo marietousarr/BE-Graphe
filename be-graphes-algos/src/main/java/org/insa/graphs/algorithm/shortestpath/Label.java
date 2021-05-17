@@ -1,22 +1,23 @@
 package org.insa.graphs.algorithm.shortestpath;
 
 import org.insa.graphs.model.Arc;
+import org.insa.graphs.model.Node;
 
 public class Label implements Comparable<Label>{
 	
 	//attributs
-	protected int sommetCourant; //sera égal à l'id du noeud pour l'association
+	protected Node sommetCourant; //sera égal à l'id du noeud pour l'association
 	
-	private boolean marque;
+	protected boolean marque;
 	
-	private double cout;
+	protected double cout;
 	
 	public Arc arcPere;
 	
 	
 	//Contructeur
-	public Label(int idNode) {
-		this.sommetCourant = idNode;
+	public Label(Node node) {
+		this.sommetCourant = node;
 		this.marque= false;
 		this.cout = java.lang.Double.POSITIVE_INFINITY;
 	}
@@ -43,15 +44,19 @@ public class Label implements Comparable<Label>{
 	}
 	
 	public int getId() {
-		return sommetCourant;
+		return sommetCourant.getId();
+	}
+	
+	public double getTotalCost() {
+		return this.cout;
 	}
 	
 	public int compareTo( Label y) {
-		return Double.compare(getCost(), y.getCost());
+		return Double.compare(getTotalCost(), y.getTotalCost()) ;
 	}
 	
 	public String toString() {
-		return sommetCourant + " "+ cout;
+		return this.getId()+" "+cout;
 	}
 
 }
