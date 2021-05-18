@@ -2,6 +2,7 @@ package org.insa.graphs.algorithm.shortestpath;
 
 import org.insa.graphs.model.Node;
 import org.insa.graphs.model.Point;
+import org.insa.graphs.model.Graph;
 
 public class LabelStar extends Label implements Comparable<Label> {
 	
@@ -10,19 +11,20 @@ public class LabelStar extends Label implements Comparable<Label> {
 	
 	private Node destination;
 	
-	private boolean type; //type est true si le cout est par rapport à la longueur et false sinon
+	private double vitMax;//vitMax est non nul si le cout est par rapport à la longueur
 	
-	//prenons 200km/h => 55.56m/s pour la vitesse à vol d'oiseau
+	//prenons la vitesse max du graphe 
 	
 	//contructor
 	
-	public LabelStar(Node node, Node dest, boolean type) {
+	public LabelStar(Node node, Node dest, double vitMax) {
 		super(node);
 		this.destination = dest;
-		if (type== true)
+		this.vitMax = vitMax;
+		if (Double.compare(0.0, this.vitMax)==0)
 			this.coutEstime = Point.distance(this.sommetCourant.getPoint(), this.destination.getPoint());
 		else
-			this.coutEstime = (Point.distance(this.sommetCourant.getPoint(), this.destination.getPoint()))/55.56;
+			this.coutEstime = (Point.distance(this.sommetCourant.getPoint(), this.destination.getPoint()))/(vitMax);
 	}
 	
 	//methodes

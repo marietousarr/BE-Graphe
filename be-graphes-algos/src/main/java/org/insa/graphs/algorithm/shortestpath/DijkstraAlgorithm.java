@@ -48,7 +48,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         // Notify observers about the first event (origin processed).
         notifyOriginProcessed(data.getOrigin());
         
-        //int cpt=0; compteur de sommets explorés
+        //int cpt=0; //compteur de sommets explorés
         
         // on commence l'algorithme
         boolean notReached = true;
@@ -59,11 +59,11 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             Node sommetMin = graph.get(idMin);
             labels[idMin].mark();
          	notifyNodeMarked(sommetMin);
-         	//System.out.println(labels[idMin].getCost());
+         	//System.out.println("le cout du sommet min est " + labels[idMin].getTotalCost());
             
          	//cpt = 0;
          	
-         	//System.out.println(" le nombre de successeurs du sommet : " +sommetMin.getSuccessors().size());
+         	//System.out.println("le nombre de successeurs du sommet : " +sommetMin.getSuccessors().size());
             for (Arc arc: sommetMin.getSuccessors()) {
             	
             	Node noeudCourant = arc.getDestination();
@@ -131,7 +131,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
         // Create the final solution.
         Path monpcc = new Path(graph, arcs);
-        System.out.println(" Mon chemin est il valide ? " + monpcc.isValid() + "son cout est de " + monpcc.getLength());
+        //System.out.println(" Mon chemin est il valide ? " + monpcc.isValid() + " son cout est de " + monpcc.getLength());
         solution = new ShortestPathSolution(data, Status.OPTIMAL, monpcc);
     }
     	
