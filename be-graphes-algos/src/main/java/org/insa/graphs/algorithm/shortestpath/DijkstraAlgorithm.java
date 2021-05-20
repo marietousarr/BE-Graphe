@@ -13,7 +13,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	
 	//attributs :
 	protected BinaryHeap<Label> tas;
-	protected Label[] labels;
+	public Label[] labels;
 	
 
     public DijkstraAlgorithm(ShortestPathData data) {
@@ -118,6 +118,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             ArrayList<Arc> arcs = new ArrayList<>();
             
             int encours = data.getDestination().getId();
+            
+            //System.out.println(labels[encours].getTotalCost()); parfois on a NaN voir LabelStar
+            
             Arc arcPath = null;
             while (labels[encours].arcPere!=null) {
             	arcPath = labels[encours].arcPere;
