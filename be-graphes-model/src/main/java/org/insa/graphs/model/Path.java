@@ -202,7 +202,10 @@ public class Path {
      * @return Last node of the path.
      */
     public Node getDestination() {
-        return arcs.get(arcs.size() - 1).getDestination();
+    	if ((this.arcs).size()==0)
+    		return this.origin;
+    	else 
+    		return arcs.get(arcs.size() - 1).getDestination();
     }
 
     /**

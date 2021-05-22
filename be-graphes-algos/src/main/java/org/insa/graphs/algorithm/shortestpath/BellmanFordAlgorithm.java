@@ -71,7 +71,7 @@ public class BellmanFordAlgorithm extends ShortestPathAlgorithm {
         ShortestPathSolution solution = null;
 
         // Destination has no predecessor, the solution is infeasible...
-        if (predecessorArcs[data.getDestination().getId()] == null) {
+        if (predecessorArcs[data.getDestination().getId()] == null && data.getDestination() != data.getOrigin()) {
             solution = new ShortestPathSolution(data, Status.INFEASIBLE);
         }
         else {
@@ -91,7 +91,12 @@ public class BellmanFordAlgorithm extends ShortestPathAlgorithm {
             Collections.reverse(arcs);
 
             // Create the final solution.
-            solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph, arcs));
+            Path monpcc=null;
+            if (data.getOrigin()==data.getDestination())
+            	monpcc = new Path(graph, data.getOrigin());
+            else 
+            	monpcc = new Path(graph, arcs);
+            solution = new ShortestPathSolution(data, Status.OPTIMAL, monpcc);
         }
 
         return solution;

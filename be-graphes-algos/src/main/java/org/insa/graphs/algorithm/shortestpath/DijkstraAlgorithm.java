@@ -107,7 +107,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         }
         	
     	//on construit la solution
-    	if (labels[data.getDestination().getId()].arcPere==null) {
+    	if (labels[data.getDestination().getId()].arcPere==null && data.getOrigin()!= data.getDestination()) {
     		solution = new ShortestPathSolution(data, Status.INFEASIBLE);
     	} else {
     		
@@ -133,8 +133,14 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Collections.reverse(arcs);
 
         // Create the final solution.
-        Path monpcc = new Path(graph, arcs);
+        Path monpcc=null;
+        if (data.getOrigin()==data.getDestination())
+        	monpcc = new Path(graph, data.getOrigin());
+        else 
+        	monpcc = new Path(graph, arcs);
+        
         //System.out.println(" Mon chemin est il valide ? " + monpcc.isValid() + " son cout est de " + monpcc.getLength());
+        
         solution = new ShortestPathSolution(data, Status.OPTIMAL, monpcc);
     }
     	
