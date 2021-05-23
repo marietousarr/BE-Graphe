@@ -426,15 +426,10 @@ public abstract class DijkstraAStarAlgorithmTest {
 	  	    			pathToCompare = Path.createShortestPathFromNodes(graphs[graphaleatoire], nodesSolu);
 	  	    		
 	  	    		else //si le coût est en temps
-	  	    			
 	  	    			pathToCompare = Path.createFastestPathFromNodes2(graphs[graphaleatoire], nodesSolu, vit);
 	  	    		
-	  	    		try {
 	  	    		assertEquals(true, (pathsolu.getArcs()).equals(pathToCompare.getArcs()));
-	  	    		} catch(AssertionError e) {
-	  	    			System.out.println(pathsolu +"vs"+pathToCompare);
-	  	    			break;
-	  	    		}
+	  	    		
 	  	    		
 	  	    		}
   	    	 }
