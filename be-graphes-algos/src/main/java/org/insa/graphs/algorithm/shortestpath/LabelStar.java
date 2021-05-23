@@ -23,7 +23,7 @@ public class LabelStar extends Label implements Comparable<Label> {
 		this.vitMax = vitMax;
 		
 		if (sommetCourant == this.destination) {
-			this.coutEstime = 0.0; // en laissant la machine calculer (avec la fonction distance) parfois on a NaN comme coutEstime et dans ces conditions et le AStar s'exécute comme un Dijkstra
+			this.coutEstime = 0; // en laissant la machine calculer (avec la fonction distance) parfois on a NaN comme coutEstime et dans ces conditions et le AStar s'exécute comme un Dijkstra
 		} else {
 			this.coutEstime = Point.distance(this.sommetCourant.getPoint(), this.destination.getPoint());
 		}

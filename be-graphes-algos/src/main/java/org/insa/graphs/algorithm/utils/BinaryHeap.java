@@ -89,41 +89,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
         this.arraySet(index, x);
     }
     
-    public boolean isValid(E x) throws IndexOutOfBoundsException{
-    	
-    	boolean res = true;
-    	
-    	int index = this.array.indexOf(x);
-    	int left_index = indexLeft(index);
-    	int right_index = left_index +1;
-    	
-    	if (left_index < this.currentSize) {
-	    	E left =  this.array.get(left_index);
-	    	if (x.compareTo(left)> 0) {
-	    		System.out.println(" leftChild cost less than x " + x +"<-- x left --> "+ left);
-	    		res = false;
-	    	}
-	    	isValid(left);
-	    	
-	    	boolean cond;
-	    	try {
-	    		cond= this.array.get(right_index) != null;
-	    		
-	    	} catch(IndexOutOfBoundsException e){
-	    		cond = false;
-	    	}
-	    	if(cond) {
-	    		E right =  this.array.get(right_index);
-		    	if (x.compareTo(right)> 0) {
-		    		System.out.println(" rightChild less more than x " + x +"<-- x right --> "+ left);
-		    		res = false;
-		    	}
-		    	isValid(right);
-	    	}
-	    	
-	    }
-    	return res;
-    }
+    
 
     /**
      * Internal method to percolate down in the heap.
@@ -213,6 +179,37 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
         return minItem;
         
     }
+    
+    
+    public boolean isValid() {
+    	int i=0;
+    	for (i=0; i<this.currentSize; i++) {
+	    	E x = this.array.get(i);
+	    	int left_index = indexLeft(i);
+	    	
+	    	if (left_index < this.currentSize) {
+		    	E left =  this.array.get(left_index);
+		    	if (x.compareTo(left)> 0) {
+		    		System.out.println(" leftChild cost less than x " + x +"<-- x left --> "+ left);
+		    		return false;
+		    	}
+
+		    	int right_index = left_index +1;
+		    	
+		    	if(right_index < this.currentSize) {
+		    		E right =  this.array.get(right_index);
+			    	if (x.compareTo(right)> 0) {
+			    		System.out.println(" rightChild less more than x " + x +"<-- x right --> "+ left);
+			    		return false;
+			    	}
+		    	}
+		    	
+		    }
+    	}
+    	
+    	return true;
+    }
+    
 
     /**
      * Creates a multi-lines string representing a sorted view of this binary heap.

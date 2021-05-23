@@ -91,7 +91,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                     	labels[id].setCost(newCost);
                     	labels[id].setFather(arc);
                     	tas.insert(labels[id]);
-                    	//System.out.println(" Le tas est valide : " + tas.isValid(labels[id]));
+                    	//if (!tas.isValid())
+                    		//System.out.println(" Le tas est valide : " + false);
                     }
                 }
                 //cpt++;

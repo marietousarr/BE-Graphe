@@ -302,7 +302,8 @@ public class Path {
      * implemented.
      */
     public double getTravelTime(double speed) {
-    	
+    	if (speed< 0)
+    		return getMinimumTravelTime();
     	double time=0;
     	for ( Arc element : this.arcs) {
     		time += element.getTravelTime(speed);
@@ -376,6 +377,13 @@ public class Path {
 	        
 	        return new Path(graph, arcs);
         }
+    }
+    
+    public String toString() {
+    	String ret= "//";
+    	for (Arc arc : this.getArcs())
+    		ret += "-"+arc;
+    	return ret+"//";
     }
 
 }
