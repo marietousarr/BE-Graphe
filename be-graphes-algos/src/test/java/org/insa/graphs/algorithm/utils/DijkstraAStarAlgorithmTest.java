@@ -26,6 +26,7 @@ import org.insa.graphs.algorithm.shortestpath.BellmanFordAlgorithm;
 import org.insa.graphs.model.Graph;
 import org.insa.graphs.model.Node;
 import org.insa.graphs.model.Path;
+import org.insa.graphs.model.Arc;
 import org.insa.graphs.model.io.BinaryGraphReader;
 import org.insa.graphs.model.io.GraphReader;
 import org.junit.Before;
@@ -33,6 +34,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Arrays;
 
 import javax.swing.JFrame;
@@ -274,7 +276,8 @@ public abstract class DijkstraAStarAlgorithmTest {
     	 int mode=0;
     	 
   		 for (mode=0; mode < 5; mode++) {
-  			 while (cpt<50) {
+  			 cpt = 0; 
+  			 while (cpt<20) { 
   				 
 	   	    	 Random rand = new Random();
 	   	    	 int graphaleatoire = rand.nextInt(2); //on utilise soit la carte carre soit la carte de toulouse qui sont de petite cartes pour l'application de BF
@@ -298,7 +301,7 @@ public abstract class DijkstraAStarAlgorithmTest {
 	   	    	 ShortestPathSolution solutionBF = null;
 	  	    	 solutionBF = spAlgorithmBF.run();
 	   	    	 
-	   	    	 System.out.println("PCC entre "+noeud1.getId()+" et "+noeud2.getId()+" avec le mode "+ArcInspectorFactory.getAllFilters().get(mode)+" et le status "+solution.getStatus());
+	   	    	 //System.out.println("PCC entre "+noeud1.getId()+" et "+noeud2.getId()+" avec le mode "+ArcInspectorFactory.getAllFilters().get(mode)+" et le status "+solution.getStatus());
 	
 	  	    	 //comparaison avec Bellman-Ford
 	   	    	 //on ne peut pas comparer les solutions directements il faut donc prendre certains éléments en compte
@@ -338,9 +341,69 @@ public abstract class DijkstraAStarAlgorithmTest {
    	 
     }
     
-    public void TestOthers() {
-   	 //verifier la solution sans BF
-    }
+    
+    @Test
+    public void TestSansOracle() throws Exception {
+   	 
+   	 int cpt=0;
+   	 int mode=0;
+   	 
+ 		 for (mode=0; mode < 4; mode+=3) {
+ 			 cpt = 0; 
+ 			 while (cpt<50) { 
+ 				 
+	   	    	 Random rand = new Random();
+	   	    	 int graphaleatoire = rand.nextInt(3); 
+	   	    	 
+	   	    	 int nbnodes = graphs[graphaleatoire].size();
+	   	
+	   	    	 int randomnode1 = rand.nextInt(nbnodes);
+	   	    	 int randomnode2 = rand.nextInt(nbnodes);
+	   	    	 
+	   	    	 Node noeud1= graphs[graphaleatoire].get(randomnode1);
+	   	    	 Node noeud2= graphs[graphaleatoire].get(randomnode2);
+	   	    	 
+	   	    	 ShortestPathData data= new ShortestPathData(graphs[graphaleatoire], noeud1, noeud2, ArcInspectorFactory.getAllFilters().get(mode));
+	   	    	 
+	   	    	 DijkstraAlgorithm spAlgorithm = (DijkstraAlgorithm) AlgorithmFactory.createAlgorithm(AlgorithmFactory.getAlgorithmClass(ShortestPathAlgorithm.class, arg), data);
+	   	    	 ShortestPathSolution solution = null;
+	   	    	 solution = spAlgorithm.run();
+	   	    	 
+	   	    	Path pathsolu=null;
+	   	    	
+	  	    	 if (solution.getStatus() != ShortestPathSolution.Status.INFEASIBLE) {
+	  	    		cpt++;
+
+	  	    		pathsolu =  solution.getPath();
+	  	    		int nbnodesPath = pathsolu.size();
+	  	    		ArrayList<Node> nodesSolu= new ArrayList<Node>();
+	  	    		
+	  	    		nodesSolu.add(pathsolu.getOrigin());
+	  	    		
+	  	    		int k;
+	  	    		for (k=0; k<nbnodesPath-1;k++) {
+	  	    			nodesSolu.add(pathsolu.getArcs().get(k).getDestination());
+	  	    		}
+	  	    		
+	  	    		Path pathToCompare=null;
+	  	    		double vit = data.getMaximumSpeed();
+	  	    		
+	  	    		
+	  	    		if (mode == 0)
+	  	    			pathToCompare = Path.createShortestPathFromNodes(graphs[graphaleatoire], nodesSolu);
+	  	    		else 
+	  	    			pathToCompare = Path.createFastestPathFromNodes2(graphs[graphaleatoire], nodesSolu, vit);
+	  	    		
+	  	    		assertEquals(true, (pathsolu.getArcs()).equals(pathToCompare.getArcs()));
+	  	    		
+	  	    		}
+	  	    	 }
+	  	    	 
+ 			 }
+ 		 }
+	   	    	 
+   	 	
+    
    
     
     
